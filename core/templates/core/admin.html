@@ -10,6 +10,15 @@
     <div class="row text-center my-5">
         <h1 class="text-uppercase admin-text">Admin Dashboard</h1>
     </div>
+    
+    {%if messages%}
+    {%for message in messages%}
+    <div class="alert alert-secondary" role="alert">
+        {{message}}
+      </div>
+    {%endfor%}
+    {%endif%}
+
     <div class="row">
         <div class="col">
             <div class="dashboard text-center py-5 text-light">
@@ -34,6 +43,7 @@
         </div>
     </div>
     <div class="row my-5">
+        <a href="{%url 'create-product'%}" class="btn btn-lg btn-primary">Add Product</a>
         <table class="table caption-top">
             <caption>List of products</caption>
             <thead>
