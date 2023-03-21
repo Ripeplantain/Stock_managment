@@ -3,10 +3,12 @@ from django.contrib import messages
 from .forms import CreateUserForm
 from django.contrib.auth import authenticate, login, logout
 
-from django.http import HttpResponse
+from .decorators import authenticated_user
 
 # Create your views here.
 
+
+@authenticated_user
 def login_view(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -22,6 +24,7 @@ def login_view(request):
 
     return render(request, 'users/login.html')
 
+@authenticated_user
 def register_view(request):
     form = CreateUserForm()
 

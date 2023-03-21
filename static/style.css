@@ -32,3 +32,24 @@ h1 {
 .nav-link:hover {
     border-bottom: 2px solid #000;
 }
+
+.admin-text {
+    letter-spacing: 1px;
+}
+
+.dashboard {
+    background-color: #535c68;
+    max-width: 400px;
+}
+
+.dashboard h4 {
+    font-size: 2em;
+    letter-spacing: 2px;
+    font-family: 'Roboto Serif', serif;
+}
+
+.dashboard p {
+    font-size: 1.5em;
+    letter-spacing: 1px;
+    font-family: 'Roboto', sans-serif;
+}

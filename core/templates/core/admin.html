@@ -1,0 +1,65 @@
+{%extends 'base.html'%}
+
+{%load static%}
+
+
+{%block title%}Admin{%endblock%}
+
+{%block content%}
+<div class="container">
+    <div class="row text-center my-5">
+        <h1 class="text-uppercase admin-text">Admin Dashboard</h1>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="dashboard text-center py-5 text-light">
+                <h4 class="text-uppercase">Products</h4>
+                <p>{{count}}</p>
+                <a class="btn btn-outline-light text-uppercase" href="{%url 'admin'%}">View Products</a>
+            </div>
+        </div>
+        <div class="col">
+            <div class="dashboard text-center py-5 text-light">
+                <h4 class="text-uppercase">Orders</h4>
+                <p>200</p>
+                <a class="btn btn-outline-light text-uppercase" href="#">View Orders</a>
+            </div>
+        </div>
+        <div class="col">
+            <div class="dashboard text-center py-5 text-light">
+                <h4 class="text-uppercase">Users</h4>
+                <p>200</p>
+                <a class="btn btn-outline-light text-uppercase" href="#">View Orders</a>
+            </div>
+        </div>
+    </div>
+    <div class="row my-5">
+        <table class="table caption-top">
+            <caption>List of products</caption>
+            <thead>
+                <tr>
+                    <th scope="col">Image</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {%for product in products%}
+                <tr>
+                    <td><img src="{{product.image.url}}" class="img-fluid" width="100"></td>
+                    <td>{{product.name}}</td>
+                    <td>GH&#8373; {{product.price}}</td>
+                    <td>{{product.quantity}}</td>
+                    <td>
+                        <a href="#" class="btn btn-outline-primary">Update</a>
+                        <a href="{%url 'delete' product.id%}" class="btn btn-outline-danger">Delete</a>
+                    </td>
+                </tr>
+                {%endfor%}
+            </tbody>
+        </table>
+    </div>
+</div>
+{%endblock%}
