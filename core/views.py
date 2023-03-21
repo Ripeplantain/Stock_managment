@@ -8,7 +8,12 @@ def dashboard(request):
     """
     This view will render the dashboard page
     """
-    products = Product.objects.all()
+    
+    if request.method == 'POST':
+        search = request.POST['search']
+        products = Product.objects.filter(name__icontains=search)
+    else:
+        products = Product.objects.all()
 
     context = {
         'products': products
