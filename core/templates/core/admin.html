@@ -63,7 +63,7 @@
                     <td>GH&#8373; {{product.price}}</td>
                     <td>{{product.quantity}}</td>
                     <td>
-                        <a href="#" class="btn btn-outline-primary">Update</a>
+                        <a href="{%url 'update-product' product.id%}" class="btn btn-outline-primary">Update</a>
                         <a href="{%url 'delete' product.id%}" class="btn btn-outline-danger">Delete</a>
                     </td>
                 </tr>

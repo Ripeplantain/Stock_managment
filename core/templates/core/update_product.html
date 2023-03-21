@@ -1,0 +1,33 @@
+{%extends 'base.html'%}
+
+{%load static%}
+
+{%block title%}Create Product{%endblock%}
+
+{%block content%}
+<section class="dashboard-section" style="background-image:url('{%static "images/store.jpg"%}') ;">
+</section>
+
+<div class="container">
+    <h1 class="my-5">Add Product</h1>
+    <div class="row my-5">
+        <div class="col-md-6">
+            <img src="{%static 'images/food.jpg'%}" class="img-fluid">
+        </div>
+        <div class="col-md-6 p-5">
+            <form method="POST" enctype="multipart/form-data">
+                {%csrf_token%}
+                {{form}}
+                <button class="btn btn-primary" type="submit">Add Product</button>
+                {%if form.errors%}
+                {%for error in form.errors%}
+                <div class="alert alert-primary" role="alert">
+                    {{error}}
+                </div>
+                {%endfor%}
+                {%endif%}
+            </form>
+        </div>
+    </div>
+</div>
+{%endblock%}
