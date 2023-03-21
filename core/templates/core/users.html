@@ -23,31 +23,29 @@
 
 
     <div class="row my-5">
-        <a href="{%url 'create-product'%}" class="btn btn-lg btn-primary">Add Product</a>
         <table class="table caption-top">
-            <caption>List of products</caption>
+            <caption>List of users</caption>
             <thead>
                 <tr>
-                    <th scope="">#</th>
-                    <th scope="col">Image</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Quantity</th>
-                    <th scope="col"></th>
+                    <th scope="col">#</th>
+                    <th scope="col">username</th>
+                    <th scope="col">first_name</th>
+                    <th scope="col">last_name</th>
+                    <th scope="col">email</th>
+                    <th scope="col">last_login</th>
+                    <th scope="col">date_joined</th>
                 </tr>
             </thead>
             <tbody>
-                {%for product in page.object_list%}
+                {%for user in page.object_list%}
                 <tr>
-                    <td>{{forloop.counter}}</td>
-                    <td><img src="{{product.image.url}}" class="img-fluid" width="100"></td>
-                    <td>{{product.name}}</td>
-                    <td>GH&#8373; {{product.price}}</td>
-                    <td>{{product.quantity}}</td>
-                    <td>
-                        <a href="{%url 'update-product' product.id%}" class="btn btn-outline-primary">Update</a>
-                        <a href="{%url 'delete' product.id%}" class="btn btn-outline-danger">Delete</a>
-                    </td>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{user.username}}</td>
+                    <td>{{user.first_name}}</td>
+                    <td>{{user.last_name}}</td>
+                    <td>{{user.email}}</td>
+                    <td>{{user.last_login|timesince}}</td>
+                    <td>{{user.date_joined|timesince}}</td>
                 </tr>
                 {%endfor%}
             </tbody>

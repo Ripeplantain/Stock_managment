@@ -1,0 +1,23 @@
+<div class="row">
+    <div class="col">
+        <div class="dashboard text-center py-5 text-light">
+            <h4 class="text-uppercase">Products</h4>
+            <p>{{count}}</p>
+            <a class="btn btn-outline-light text-uppercase" href="{%url 'admin'%}">View Products</a>
+        </div>
+    </div>
+    <div class="col">
+        <div class="dashboard text-center py-5 text-light">
+            <h4 class="text-uppercase">Orders</h4>
+            <p>200</p>
+            <a class="btn btn-outline-light text-uppercase" href="#">View Orders</a>
+        </div>
+    </div>
+    <div class="col">
+        <div class="dashboard text-center py-5 text-light">
+            <h4 class="text-uppercase">Users</h4>
+            <p>{{users_count}}</p>
+            <a class="btn btn-outline-light text-uppercase" href="{%url 'users'%}">View Users</a>
+        </div>
+    </div>
+</div>
