@@ -118,7 +118,7 @@ def view_users(request):
                                           Q(first_name__icontains=search)|Q(last_name__icontains=search)|
                                           Q(email__icontains=search)).order_by('-date_joined')
     else:
-        users = User.objects.all().order_by('-date_joined')
+        users = User.objects.all().order_by('-date_joined').exclude(is_superuser=True)
 
 
     page = Paginator(users, 10)
