@@ -10,12 +10,12 @@
     <div class="row text-center my-5">
         <h1 class="text-uppercase admin-text">Admin Dashboard</h1>
     </div>
-    
+
     {%if messages%}
     {%for message in messages%}
     <div class="alert alert-secondary" role="alert">
         {{message}}
-      </div>
+    </div>
     {%endfor%}
     {%endif%}
 
@@ -56,7 +56,7 @@
                 </tr>
             </thead>
             <tbody>
-                {%for product in products%}
+                {%for product in page.object_list%}
                 <tr>
                     <td><img src="{{product.image.url}}" class="img-fluid" width="100"></td>
                     <td>{{product.name}}</td>
@@ -70,6 +70,26 @@
                 {%endfor%}
             </tbody>
         </table>
+    </div>
+    <div class="row my-4 text-center">
+        <div class="col">
+            <p>Page: {{page.number}}/{{page.paginator.num_pages}}</p>
+        </div>
+        <div class="col">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    {%if page.has_previous%}
+                    <li class="page-item"><a class="page-link" href="{%url 'admin'%}?page={{page.previous_page_number}}">Previous</a></li>
+                    {%endif%}
+                    {%for i in page.paginator.page_range%}
+                    <li class="page-item"><a class="page-link" href="{%url 'admin'%}?page={{i}}">{{i}}</a></li>
+                    {%endfor%}
+                    {%if page.has_next%}
+                    <li class="page-item"><a class="page-link" href="{%url 'admin'%}?page={{page.next_page_number}}">Next</a></li>
+                    {%endif%}
+                </ul>
+            </nav>
+        </div>
     </div>
 </div>
 {%endblock%}

@@ -1,8 +1,7 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
-
-from django.http import HttpResponse
+from django.core.paginator import Paginator
 
 # Create your views here.
 from .models import Product
@@ -39,12 +38,17 @@ def admin_view(request):
     else:
         products = Product.objects.all().order_by('-created_at')
 
+    page = Paginator(products, 10)
+    page_list = request.GET.get('page')
+    page = page.get_page(page_list)
+
+
     context = {
-        'products': products,
+        'page': page,
         'count': count,
     }
 
-    return render(request, 'core/admin.html',context)
+    return render(request, 'core/product.html',context)
 
 
 @user_passes_test(lambda u: u.is_superuser)
