@@ -5,12 +5,13 @@ from django.core.paginator import Paginator
 from django.contrib.auth.models import User
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
-from users.forms import CreateUserForm
+from users.forms import UpdateUserForm
 
 
 # Create your views here.
 from .models import Product, Order
 from .forms import ProductForm, CreateOrder
+
 
 @login_required(login_url='login')
 def dashboard(request):
@@ -159,13 +160,18 @@ def order_view(request,id):
     if request.method == 'POST':
         form = CreateOrder(request.POST)
         if form.is_valid():
-            product_order = form.save(commit=False)
-            product_order.user = request.user
-            product_order.product = product
-            product_order.save()
-            messages.success(request, 'Order created successfully')
-            return redirect('dashboard')
-    
+            if product.quantity >= form.cleaned_data['quantity']:
+                product.quantity -= form.cleaned_data['quantity']
+                product.save()
+                product_order = form.save(commit=False)
+                product_order.user = request.user
+                product_order.product = product
+                product_order.save()
+                messages.success(request, 'Order created successfully')
+                return redirect('dashboard')
+            else:
+                messages.error(request, 'Order quantity is greater than available quantity')
+                return redirect('order-product', id=id)
 
     context = {
         'product': product,
@@ -180,9 +186,10 @@ def profile_page(request):
     """
         This is for the profile page
     """
-    form = CreateUserForm(instance=request.user)
+    form = UpdateUserForm(instance=request.user)
 
     if request.method == 'POST':
+        form = UpdateUserForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
             messages.success(request, 'Profile updated successfully')
