@@ -264,3 +264,16 @@ def update_order(request,id):
     }
 
     return render(request, 'core/update_order.html',context)
+
+
+@user_passes_test(lambda u: u.is_superuser)
+def delete_order(request,id):
+    """
+        This is for deleting the order
+    """
+
+    order = get_object_or_404(Order, id=id)
+    order.delete()
+    messages.success(request, 'Order deleted successfully')
+
+    return redirect('orders')

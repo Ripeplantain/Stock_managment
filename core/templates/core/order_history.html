@@ -33,6 +33,7 @@
                     <th scope="col">Address</th>
                     <th scope="col">User</th>
                     <th scope="col"></th>
+                    <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
@@ -46,7 +47,10 @@
                     <td>{{order.user.username}}</td>
                     <td>
                         <a href="{%url 'update-order' order.id%}" class="btn btn-outline-primary">Update</a>
-                        <a href="{%url 'process-order' order.id%}" class="btn btn-outline-success">Processed</a>
+                        <a href="{%url 'delete-order' order.id%}" class="btn btn-outline-danger">Delete</a>
+                    </td>
+                    <td>
+                        <a href="{%url 'process-order' order.id%}" class="btn btn-success">Process</a>
                     </td>
                 </tr>
                 {%endfor%}
