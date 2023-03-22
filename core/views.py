@@ -241,3 +241,26 @@ def process_order(request,id):
     messages.success(request, 'Order processed successfully')
 
     return redirect('orders')
+
+
+@user_passes_test(lambda u: u.is_superuser)
+def update_order(request,id):
+    """
+        This is for updating the order
+    """
+
+    order = get_object_or_404(Order, id=id)
+    form = CreateOrder(instance=order)
+
+    if request.method == 'POST':
+        form = CreateOrder(request.POST, instance=order)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Order updated successfully')
+            return redirect('orders')
+
+    context = {
+        'form': form
+    }
+
+    return render(request, 'core/update_order.html',context)

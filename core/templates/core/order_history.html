@@ -45,7 +45,7 @@
                     <td>{{order.address}}</td>
                     <td>{{order.user.username}}</td>
                     <td>
-                        <a href="" class="btn btn-outline-primary">Update</a>
+                        <a href="{%url 'update-order' order.id%}" class="btn btn-outline-primary">Update</a>
                         <a href="{%url 'process-order' order.id%}" class="btn btn-outline-success">Processed</a>
                     </td>
                 </tr>
