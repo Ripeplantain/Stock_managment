@@ -1,0 +1,45 @@
+{%extends 'base.html'%}
+
+{%load static%}
+
+{%block title%}Dashboard{%endblock%}
+
+{%block content%}
+<section class="dashboard-section" style="background-image:url('{%static "images/store.jpg"%}') ;">
+</section>
+
+<div class="container">
+    <div class="row my-5">
+        <h1 class="text-capitalize">Make your order</h1>
+    </div>
+    <div class="row my-5">
+        <div class="col-md-6">
+            <img src="{{product.image.url}}" class="img-fluid">
+        </div>
+        <div class="col-md-6">
+            <form method="POST">
+                {%csrf_token%}
+
+                {{form.errors}}
+
+                <div>
+                    <label for="name">Quantity</label>
+                    {{form.quantity}}
+                </div>
+                <div>
+                    <label for="name">Phone Number</label>
+                    {{form.number}}
+                </div>
+                <div>
+                    <label for="name">Address</label>
+                    {{form.address}}
+                </div>
+              
+                <div class="mb-3">
+                    <button class="btn btn-primary" type="submit">Place Order</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{%endblock%}

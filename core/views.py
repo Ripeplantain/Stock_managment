@@ -4,10 +4,13 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 from django.contrib.auth.models import User
 from django.db.models import Q
+from django.shortcuts import get_object_or_404
+from users.forms import CreateUserForm
+
 
 # Create your views here.
-from .models import Product
-from .forms import ProductForm
+from .models import Product, Order
+from .forms import ProductForm, CreateOrder
 
 @login_required(login_url='login')
 def dashboard(request):
@@ -17,12 +20,16 @@ def dashboard(request):
     
     if request.method == 'POST':
         search = request.POST['search']
-        products = Product.objects.filter(name__icontains=search)
+        products = Product.objects.filter(name__icontains=search).order_by('-created_at')
     else:
-        products = Product.objects.all()
+        products = Product.objects.all().order_by('-created_at')
+
+    page = Paginator(products, 10)
+    page_list = request.GET.get('page')
+    page = page.get_page(page_list)
 
     context = {
-        'products': products
+        'page': page
     }
     return render(request, 'core/dashboard.html',context)
 
@@ -34,6 +41,7 @@ def admin_view(request):
 
     count =  Product.objects.count()
     users_count = User.objects.exclude(is_superuser=True).count()
+    order_count = Order.objects.count()
 
 
     if request.method == 'POST':
@@ -50,7 +58,8 @@ def admin_view(request):
     context = {
         'page': page,
         'count': count,
-        'users_count': users_count
+        'users_count': users_count,
+        'order_count': order_count
     }
 
     return render(request, 'core/product.html',context)
@@ -109,6 +118,8 @@ def view_users(request):
     """
     count =  Product.objects.count()
     users_count = User.objects.exclude(is_superuser=True).count()
+    order_count = Order.objects.count()
+
 
     search = request.GET.get('search')
 
@@ -129,7 +140,89 @@ def view_users(request):
     context = {
         'page': page,
         'count': count,
-        'users_count': users_count
+        'users_count': users_count,
+        'order_count': order_count
     }
 
     return render(request, 'core/users.html',context)
+
+
+@login_required(login_url='login')
+def order_view(request,id):
+    """
+        This is for the order view
+    """
+
+    product = get_object_or_404(Product, id=id)
+    form = CreateOrder()
+
+    if request.method == 'POST':
+        if form.is_valid():
+            product_order = form.save(commit=False)
+            product_order.user = request.user
+            product_order.product = product
+            product_order.save()
+            messages.success(request, 'Order created successfully')
+            return redirect('dashboard')
+    
+
+    context = {
+        'product': product,
+        'form': form
+    }
+
+    return render(request, 'core/order.html',context)
+
+
+@login_required(login_url='login')
+def profile_page(request):
+    """
+        This is for the profile page
+    """
+    form = CreateUserForm(instance=request.user)
+
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Profile updated successfully')
+            return redirect('dashboard')
+
+    context = {
+        'form': form
+    }
+    return render(request, 'core/profile.html',context)
+
+
+@user_passes_test(lambda u: u.is_superuser)
+def order_history(request):
+    """
+        This is for the order history
+    """
+
+    count =  Product.objects.count()
+    users_count = User.objects.exclude(is_superuser=True).count()
+    order_count = Order.objects.count()
+
+    search = request.GET.get('search')
+
+    if request.method == 'POST':
+        search = request.POST['search']
+        orders = Order.objects.filter(Q(product__icontains=search)|
+                                          Q(user__icontains=search)|Q(number__icontains=search)|
+                                          Q(address__icontains=search)).order_by('-created_at')
+    else:
+        orders = Order.objects.all().order_by('-created_at')
+
+
+    page = Paginator(orders, 10)
+    page_list = request.GET.get('page')
+    page = page.get_page(page_list)
+
+    context = {
+        'page': page,
+        'count': count,
+        'users_count': users_count,
+        'order_count': order_count
+    }
+   
+    return render(request, 'core/order_history.html',context)

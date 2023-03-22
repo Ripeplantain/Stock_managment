@@ -13,9 +13,9 @@
             <h1>Products</h1>
         </div>
         <div class="row">
-            {%for product in products %}
+            {%for product in page.object_list %}
                 {%if product.quantity > 0%}
-                <div class="col-md-3">
+                <div class="col-md-3 mb-2">
                     <div class="card shadow-sm">
                         <img src="{{product.image.url}}" class="img-fluid">
                         <div class="card-body">
@@ -23,7 +23,7 @@
                           <p>GH&#8373; {{product.price}}</p>
                           <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
-                              <button type="button" class="btn btn-sm btn-outline-secondary">Add to Cart</button>
+                              <a class="btn btn-sm btn-outline-secondary" href="{%url 'order-product' product.id%}">Order Product</a>
                             </div>
                             <small class="text-muted">{{product.updated_at|timesince}}</small>
                           </div>
@@ -33,5 +33,25 @@
                 {%endif%}
             {%endfor%}
         </div>
+        <div class="row my-4 text-center">
+          <div class="col">
+              <p>Page: {{page.number}}/{{page.paginator.num_pages}}</p>
+          </div>
+          <div class="col">
+              <nav aria-label="Page navigation example">
+                  <ul class="pagination">
+                      {%if page.has_previous%}
+                      <li class="page-item"><a class="page-link" href="{%url 'dashboard'%}?page={{page.previous_page_number}}">Previous</a></li>
+                      {%endif%}
+                      {%for i in page.paginator.page_range%}
+                      <li class="page-item"><a class="page-link" href="{%url 'dashboard'%}?page={{i}}">{{i}}</a></li>
+                      {%endfor%}
+                      {%if page.has_next%}
+                      <li class="page-item"><a class="page-link" href="{%url 'dashboard'%}?page={{page.next_page_number}}">Next</a></li>
+                      {%endif%}
+                  </ul>
+              </nav>
+          </div>
+      </div>
     </div>
 {%endblock%}
