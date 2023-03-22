@@ -157,6 +157,7 @@ def order_view(request,id):
     form = CreateOrder()
 
     if request.method == 'POST':
+        form = CreateOrder(request.POST)
         if form.is_valid():
             product_order = form.save(commit=False)
             product_order.user = request.user
@@ -211,7 +212,7 @@ def order_history(request):
                                           Q(user__icontains=search)|Q(number__icontains=search)|
                                           Q(address__icontains=search)).order_by('-created_at')
     else:
-        orders = Order.objects.all().order_by('-created_at')
+        orders = Order.objects.filter(processed=False).order_by('-created_at')
 
 
     page = Paginator(orders, 10)
@@ -226,3 +227,17 @@ def order_history(request):
     }
    
     return render(request, 'core/order_history.html',context)
+
+
+@user_passes_test(lambda u: u.is_superuser)
+def process_order(request,id):
+    """
+        This is for processing the order
+    """
+
+    order = get_object_or_404(Order, id=id)
+    order.processed = True
+    order.save()
+    messages.success(request, 'Order processed successfully')
+
+    return redirect('orders')
