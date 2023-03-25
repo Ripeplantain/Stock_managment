@@ -5,17 +5,18 @@
 {%block title%}Dashboard{%endblock%}
 
 {%block content%}
-    <section class="dashboard-section" style="background-image:url('{%static "images/store.jpg"%}') ;">
-        {%if messages%}
-        {%for message in messages%}
-        <div class="container">
-            <div class="alert alert-secondary" role="alert">
-                {{message}}
-            </div>
-        </div>
-        {%endfor%}
-        {%endif%}
+    <section class="dashboard-section" style="background-image:url('{%static "images/market.jpg"%}') ;">
     </section>
+
+    {%if messages%}
+    {%for message in messages%}
+    <div class="container">
+        <div class="alert alert-secondary" role="alert">
+            {{message}}
+        </div>
+    </div>
+    {%endfor%}
+    {%endif%}
 
     <div class="container my-5">
         <div class="row my-5 text-muted">
@@ -28,7 +29,9 @@
                     <div class="card shadow-sm">
                         <img src="{{product.image.url}}" class="img-fluid">
                         <div class="card-body">
+                            
                           <p class="card-text">{{product.name}}</p>
+                          <p class="card-text">{{product.vendor.name}}</p>
                           <p>GH&#8373; {{product.price}}</p>
                           <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
