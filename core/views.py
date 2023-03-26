@@ -227,3 +227,21 @@ def delete_order(request,id):
     messages.success(request, 'Order deleted successfully')
 
     return redirect('orders')
+
+
+@login_required(login_url='login')
+def history(request):
+    """
+        This is for the order history
+    """
+
+    orders = Order.objects.filter(user=request.user,processed=False).order_by('-created_at')
+
+    page = Paginator(orders, 10)
+    page_list = request.GET.get('page')
+    page = page.get_page(page_list)
+
+    context = {
+        'page': page
+    }
+    return render(request, 'core/history.html',context)
