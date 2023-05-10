@@ -2,7 +2,12 @@ Stock Management System
 Introduction
 
 The Stock Management System is a comprehensive inventory management system that provides businesses with a centralized location to monitor the movement of their goods. It is user-friendly, customizable, and provides a range of features to help businesses optimize their inventory levels and reduce waste, leading to cost savings and increased profitability.
+
+![Example image](images/login.png)
+![Example image](images/home.png)
+
 Features
+
 
     Authentication: Allows users to authenticate with the system and manage their profile.
     Password Recovery: Enables users to recover lost passwords.
@@ -19,11 +24,11 @@ Installation
 To install the Stock Management System, follow these steps:
 
     Clone the repository to your local machine.
-    Create a virtual environment using python3 -m venv venv.
-    Activate the virtual environment using source venv/bin/activate.
+    Create a virtual environment using python -m venv venv.
+    Activate the virtual environment using venv\Scripts\activate.bat.
     Install the required dependencies using pip install -r requirements.txt.
-    Run database migrations using python3 manage.py migrate.
-    Start the server using python3 manage.py runserver.
+    Run database migrations using python manage.py migrate.
+    Start the server using python manage.py runserver.
 
 Usage
 
